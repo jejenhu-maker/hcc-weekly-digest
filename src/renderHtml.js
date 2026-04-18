@@ -62,7 +62,8 @@ function renderHtml(articles) {
 
   <div style="text-align:center;padding:40px 20px 30px;border-bottom:3px solid #dc2626;margin-bottom:30px;">
     <h1 style="font-size:24px;color:#7f1d1d;margin:0 0 8px;">🔬 HCC Weekly Digest</h1>
-    <div style="font-size:16px;color:#64748b;">肝癌免疫治療與局部消融文獻週報</div>
+    <div style="font-size:16px;color:#64748b;">肝膽腸胃內科 — 肝癌免疫治療與局部消融文獻週報</div>
+    <div style="font-size:15px;color:#7f1d1d;margin-top:8px;">呂大教授 敬啟</div>
     <div style="font-size:14px;color:#94a3b8;margin-top:12px;">${weekStart} — ${weekEnd}</div>
     <div style="margin-top:16px;">
       <a href="${pageUrl}" target="_blank" style="display:inline-block;background:#dc2626;color:white;text-decoration:none;padding:10px 24px;border-radius:8px;font-size:14px;font-weight:600;">📊 選文章 → 產生簡報 (.pptx)</a>

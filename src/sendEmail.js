@@ -1,12 +1,8 @@
-// sendEmail.js — send the digest as HTML email (no attachment needed)
+// sendEmail.js — send the HCC digest as HTML email
 const nodemailer = require('nodemailer');
 const dayjs = require('dayjs');
 const config = require('./config');
 
-/**
- * Send the HTML digest via email.
- * @param {string} htmlContent - rendered HTML string
- */
 async function sendEmail(htmlContent) {
   const { from, to, smtpHost, smtpPort, smtpUser, smtpPass } = config.email;
 
@@ -28,9 +24,9 @@ async function sendEmail(htmlContent) {
   const weekEnd = dayjs().format('YYYY-MM-DD');
 
   const mailOptions = {
-    from: `"Colorectal Weekly Digest" <${from}>`,
+    from: `"HCC Weekly Digest" <${from}>`,
     to,
-    subject: `🔬 大腸直腸外科文獻週報 — ${weekEnd}`,
+    subject: `🔬 肝癌免疫治療與局部消融文獻週報 — ${weekEnd}`,
     html: htmlContent,
   };
 

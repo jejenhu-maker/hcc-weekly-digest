@@ -177,7 +177,8 @@ function buildPageHtml(data, overallInsights, weekStart, weekEnd, year) {
 <div class="container">
   <div class="header">
     <h1>🔬 HCC Weekly Digest</h1>
-    <div class="subtitle">肝癌免疫治療與局部消融文獻週報</div>
+    <div class="subtitle">肝膽腸胃內科 — 肝癌免疫治療與局部消融文獻週報</div>
+    <div style="font-size:15px;color:var(--primary-dark);margin-top:6px;">呂大教授 敬啟</div>
     <div class="date">${weekStart} — ${weekEnd}</div>
   </div>
   <div class="toolbar">
@@ -272,8 +273,9 @@ async function generatePPT() {
     cover.addText('🔬', { x: 0, y: 1.5, w: '100%', fontSize: 60, align: 'center' });
     cover.addText('HCC Weekly Digest', { x: 1, y: 2.5, w: 11.33, fontSize: 36, color: C.white, align: 'center', bold: true });
     cover.addText('肝癌免疫治療與局部消融文獻週報', { x: 1, y: 4.2, w: 11.33, fontSize: 20, color: C.accent, align: 'center', fontFace: 'Microsoft JhengHei' });
-    cover.addText(WEEK_RANGE, { x: 1, y: 5.2, w: 11.33, fontSize: 16, color: C.slate500, align: 'center' });
-    cover.addText('Selected ' + selected.length + ' papers', { x: 1, y: 5.8, w: 11.33, fontSize: 14, color: C.slate500, align: 'center' });
+    cover.addText('呂大教授 敬啟', { x: 1, y: 5.0, w: 11.33, fontSize: 18, color: C.white, align: 'center', fontFace: 'Microsoft JhengHei' });
+    cover.addText(WEEK_RANGE, { x: 1, y: 5.6, w: 11.33, fontSize: 16, color: C.slate500, align: 'center' });
+    cover.addText('Selected ' + selected.length + ' papers', { x: 1, y: 6.1, w: 11.33, fontSize: 14, color: C.slate500, align: 'center' });
 
     // TOC
     const toc = pptx.addSlide();
