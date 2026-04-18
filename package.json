@@ -1,0 +1,22 @@
+{
+  "name": "hcc-weekly-digest",
+  "version": "1.0.0",
+  "description": "Weekly HCC (hepatocellular carcinoma) immunotherapy & ablation paper digest — PubMed + Google Scholar → HTML email + interactive PPT",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node src/index.js --dry-run"
+  },
+  "dependencies": {
+    "axios": "^1.7.0",
+    "dayjs": "^1.11.0",
+    "dotenv": "^16.4.0",
+    "handlebars": "^4.7.0",
+    "nodemailer": "^6.9.0",
+    "openai": "^4.50.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "private": true
+}

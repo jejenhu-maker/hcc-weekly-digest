@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔬 HCC Weekly Digest — 2026-04-18</title>
+<script src="https://cdn.jsdelivr.net/gh/nicholasgasior/PptxGenJS@3.12.0/dist/pptxgen.bundle.js"></script>
+<style>
+  :root {
+    --primary: #dc2626;
+    --primary-light: #fee2e2;
+    --primary-dark: #7f1d1d;
+    --slate-50: #f8fafc;
+    --slate-200: #e2e8f0;
+    --slate-400: #94a3b8;
+    --slate-500: #64748b;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-900: #0f172a;
+    --green: #065f46;
+    --green-light: #d1fae5;
+    --amber: #92400e;
+    --amber-light: #fef3c7;
+    --purple: #6b21a8;
+    --purple-light: #f3e8ff;
+    --blue-light: #dbeafe;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans TC', sans-serif;
+    background: var(--slate-50);
+    color: var(--slate-900);
+    line-height: 1.6;
+  }
+  .container { max-width: 780px; margin: 0 auto; padding: 20px; }
+  .header {
+    text-align: center;
+    padding: 40px 20px 30px;
+    border-bottom: 3px solid var(--primary);
+    margin-bottom: 24px;
+  }
+  .header h1 { font-size: 26px; color: var(--primary-dark); }
+  .header .subtitle { font-size: 16px; color: var(--slate-500); margin-top: 4px; }
+  .header .date { font-size: 14px; color: var(--slate-400); margin-top: 10px; }
+
+  .toolbar {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .toolbar .count { font-size: 14px; color: var(--slate-600); }
+  .toolbar button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .toolbar button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .toolbar button:hover:not(:disabled) { opacity: 0.85; }
+  .toolbar .select-all {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .paper {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .paper:hover { border-color: var(--primary); }
+  .paper.selected { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-light); }
+
+  .paper-top { display: flex; align-items: flex-start; gap: 12px; }
+  .paper-top input[type=checkbox] { width: 20px; height: 20px; margin-top: 3px; accent-color: var(--primary); flex-shrink: 0; cursor: pointer; }
+  .paper-num { background: var(--primary); color: white; font-weight: bold; font-size: 13px; min-width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .paper-title { font-size: 15px; font-weight: 600; color: var(--primary-dark); flex: 1; }
+  .paper-title a { color: inherit; text-decoration: none; }
+  .paper-title a:hover { text-decoration: underline; }
+
+  .badges { display: flex; gap: 5px; margin: 8px 0; flex-wrap: wrap; padding-left: 58px; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+  .badge-if { background: var(--blue-light); color: #1d4ed8; }
+  .badge-type { background: var(--amber-light); color: var(--amber); }
+  .badge-asia { background: var(--green-light); color: var(--green); }
+  .badge-country { background: var(--purple-light); color: var(--purple); }
+
+  .meta { font-size: 12px; color: var(--slate-500); padding-left: 58px; margin-bottom: 8px; }
+  .section-label { font-size: 11px; font-weight: 700; color: var(--slate-600); text-transform: uppercase; letter-spacing: 0.5px; margin: 10px 0 4px; padding-left: 58px; }
+  .abstract-text { font-size: 13px; color: var(--slate-700); text-align: justify; padding-left: 58px; line-height: 1.7; }
+  .abstract-zh { font-size: 13px; color: var(--slate-600); text-align: justify; background: var(--slate-50); padding: 8px 12px 8px 14px; margin-left: 58px; border-radius: 4px; border-left: 3px solid var(--primary); line-height: 1.7; }
+  .links { font-size: 12px; padding-left: 58px; margin-top: 8px; }
+  .links a { color: var(--primary); margin-right: 14px; }
+
+  .footer { text-align: center; font-size: 12px; color: var(--slate-400); margin-top: 40px; padding: 16px 0; border-top: 1px solid var(--slate-200); }
+
+  .generating-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; justify-content: center; align-items: center; }
+  .generating-overlay.active { display: flex; }
+  .generating-box { background: white; padding: 30px 40px; border-radius: 12px; text-align: center; font-size: 16px; }
+  .spinner { width: 40px; height: 40px; border: 4px solid var(--slate-200); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 600px) {
+    .badges, .meta, .section-label, .abstract-text, .links { padding-left: 32px; }
+    .abstract-zh { margin-left: 32px; }
+    .paper-num { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🔬 HCC Weekly Digest</h1>
+    <div class="subtitle">肝癌免疫治療與局部消融文獻週報</div>
+    <div class="date">2026-04-11 — 2026-04-18</div>
+  </div>
+  <div class="toolbar">
+    <button class="select-all" onclick="toggleAll()">全選 / 取消</button>
+    <span class="count" id="countLabel">已選 0 篇</span>
+    <button id="genBtn" disabled onclick="generatePPT()">📊 產生簡報 (.pptx)</button>
+  </div>
+  <div id="papers">
+
+    <div class="paper" id="paper-0" onclick="togglePaper(event, 0)">
+      <div class="paper-top">
+        <input type="checkbox" id="cb-0" onclick="event.stopPropagation(); updateCount();">
+        <div class="paper-num">1</div>
+        <div class="paper-title"><a href="https://doi.org/10.1016/j.cell.2026.03.001" target="_blank" onclick="event.stopPropagation();">Hallmarks of liver cancer: Therapeutic implications.</a></div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-if">IF 45.5</span>
+        <span class="badge badge-type">Review</span>
+        
+        <span class="badge badge-country">USA</span><span class="badge badge-country">Spain</span>
+      </div>
+      <div class="meta">📰 Cell &nbsp; 📅 2026-04-17 &nbsp; 👥 Llovet Josep M, Pinyol Roser, Affo Silvia, Yarchoan Mark, Gores Gregory J et al.</div>
+      <div class="section-label">Abstract</div>
+      <div class="abstract-text">The hallmarks of cancer, first proposed in 2000, have since provided a unified framework for understanding the complexity of carcinogenesis. This conceptual model has profoundly influenced the treatment landscape of primary liver cancer, which includes hepatocellular carcinoma (HCC, &#x223c;85%) and intrahepatic cholangiocarcinoma (iCCA, 10%)-malignancies with high mortality. Key hallmarks exhibited by HCC include sustaining proliferative signaling, inducing or accessing vasculature, and avoiding immune detection. Over the past two decades, outcomes for patients with advanced HCC have significantly improved with immunotherapies. iCCA is characterized by hallmarks such as sustaining proliferative signaling, deregulating cellular metabolism, and avoiding immune detection. Unlike HCC, roughly 45% of iCCA harbor alterations amenable to precision oncology approaches, including fibroblast growth factor receptor 2 (FGFR2) fusions, isocitrate dehydrogenase 1 (IDH1) mutations, ERBB2 alterations, and BRAF mutations. In this review, we explore how this framework has reshaped liver cancer care and discuss the resulting breakthroughs in management and emerging directions that may further improve therapeutic strategies.</div>
+      <div class="section-label">中文摘要</div>
+      <div class="abstract-zh">癌症的標誌性特徵最早於2000年提出，至今已為理解癌變的複雜性提供了一個統一的框架。這一概念模型深刻影響了原發性肝癌的治療格局，其中包括肝細胞癌（HCC，約85%）和肝內膽管癌（iCCA，10%）—這些惡性腫瘤具有高死亡率。HCC的主要標誌特徵包括持續的增殖信號、誘導或接觸血管以及避免免疫檢測。在過去的二十年中，接受免疫療法的晚期HCC患者的預後顯著改善。iCCA的特徵則包括持續的增殖信號、細胞代謝的失調以及避免免疫檢測。與HCC不同，約45%的iCCA存在可供精準腫瘤學方法處理的變異，包括成纖維細胞生長因子受體2（FGFR2）融合、異檸檬酸脫氫酶1（IDH1）突變、ERBB2變異和BRAF突變。在本次綜述中，我們探討了這一框架如何重塑肝癌的護理，並討論了由此帶來的管理突破及可能進一步改善治療策略的新方向。</div>
+      <div class="links">
+        <a href="https://doi.org/10.1016/j.cell.2026.03.001" target="_blank">DOI ↗</a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41997132/" target="_blank">PubMed ↗</a>
+      </div>
+    </div>
+
+    <div class="paper" id="paper-1" onclick="togglePaper(event, 1)">
+      <div class="paper-top">
+        <input type="checkbox" id="cb-1" onclick="event.stopPropagation(); updateCount();">
+        <div class="paper-num">2</div>
+        <div class="paper-title"><a href="https://doi.org/10.1158/1078-0432.CCR-25-4779" target="_blank" onclick="event.stopPropagation();">Neoadjuvant stereotactic body radiation therapy plus immune therapy favorably remodels the hepatocellular carcinoma tumor microenvironment.</a></div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-if">IF 11.5</span>
+        <span class="badge badge-type">Prospective Study</span>
+        
+        <span class="badge badge-country">USA</span>
+      </div>
+      <div class="meta">📰 Clinical cancer research : an official journal of the American Association for Cancer Research &nbsp; 📅 2026-04-15 &nbsp; 👥 Cosner Zoe, Guo Zhoubo, Nawrocki Cole, Patel Bidish, Roberts Hannah J et al.</div>
+      <div class="section-label">Abstract</div>
+      <div class="abstract-text">Although immune therapy regimens have significantly improved treatment options for patients with advanced hepatocellular carcinoma (HCC), optimal use of these regimens in earlier disease stages remains poorly defined. We conducted a single-institution, single-arm pilot study (NCT04857684) of neoadjuvant stereotactic body radiation therapy (SBRT) followed by two cycles of atezolizumab plus bevacizumab and subsequent surgical resection in patients with initially resectable HCC (n=8). The primary endpoint was safety as defined by the proportion of patients with grade 3-4 treatment-related adverse events (trAE) by Common Terminology Criteria for Adverse Events (CTCAE) v5.0. And we dissected the detailed remodeling of the tumor immune microenvironment following treatment using single-cell-resolution spatial transcriptomics method. Only one patient experienced a grade 3 trAE. Seven of eight patients proceeded to surgery, and all achieved margin-negative (R0) resection; one patient did not proceed due to subsequent disagreement of resectability. One patient achieved a pathologic complete response, and all resected patients were relapse-free at data cutoff (median follow-up 16.3 months, range 2.1-19.9). Compared with unmatched treatment-na&#xef;ve HCC specimens, post-treatment specimens showed significantly higher anti-cancer immune infiltration, including organized peritumoral aggregates. Immune infiltration and its proximity to tumor cells correlated with pre-operative radiographic response. This study provides proof-of-concept that neoadjuvant SBRT and immune therapy is safe and provides clear rationale for additional prospective clinical studies utilizing this strategy.</div>
+      <div class="section-label">中文摘要</div>
+      <div class="abstract-zh">儘管免疫療法方案顯著改善了晚期肝細胞癌（HCC）患者的治療選擇，但在早期疾病階段這些方案的最佳使用仍然不明確。我們進行了一項單一機構、單臂的初步研究（NCT04857684），研究對象為最初可切除的HCC患者（n=8），接受新輔助立體定向體部放射治療（SBRT），隨後進行兩個療程的atezolizumab加bevacizumab治療，並最終進行外科切除。主要終點為安全性，根據不良事件的共同術語標準（CTCAE）v5.0定義為3-4級治療相關不良事件（trAE）的患者比例。我們還利用單細胞解析的空間轉錄組學方法，詳細分析了治療後腫瘤免疫微環境的重塑。只有一名患者經歷了3級trAE。八名患者中有七名進行了手術，且所有患者均達到邊緣陰性（R0）切除；一名患者因隨後對可切除性產生異議而未進行手術。一名患者達到了病理完全緩解，所有切除患者在數據截止時均無復發（中位隨訪16.3個月，範圍2.1-19.9個月）。與未匹配的治療前HCC標本相比，治療後的標本顯示出顯著更高的抗癌免疫浸潤，包括有組織的腫瘤周圍聚集。免疫浸潤及其與腫瘤細胞的接近程度與術前影像學反應相關。本研究提供了證明概念，顯示新輔助SBRT和免疫療法是安全的，並為進一步利用此策略的前瞻性臨床研究提供了明確的理論依據。</div>
+      <div class="links">
+        <a href="https://doi.org/10.1158/1078-0432.CCR-25-4779" target="_blank">DOI ↗</a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41984885/" target="_blank">PubMed ↗</a>
+      </div>
+    </div>
+
+    <div class="paper" id="paper-2" onclick="togglePaper(event, 2)">
+      <div class="paper-top">
+        <input type="checkbox" id="cb-2" onclick="event.stopPropagation(); updateCount();">
+        <div class="paper-num">3</div>
+        <div class="paper-title"><a href="https://doi.org/10.1097/HEP.0000000000001731" target="_blank" onclick="event.stopPropagation();">Erratum: Hepatectomy alters adjuvant anti-PD-1 action in a mouse model of HCC but does not compromise neoadjuvant efficacy.</a></div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-if">IF 12.9</span>
+        <span class="badge badge-type">Basic Research</span>
+        
+        
+      </div>
+      <div class="meta">📰 Hepatology (Baltimore, Md.) &nbsp; 📅 2026-04-16 &nbsp; 👥 Bouguerra Roqiya, El Hajji Sofia, Wassmer Charles-Henri, Bakaric Arnaud, Slits Florence et al.</div>
+      <div class="section-label">Abstract</div>
+      <div class="abstract-text">(No abstract available)</div>
+      <div class="section-label">中文摘要</div>
+      <div class="abstract-zh">（無摘要）</div>
+      <div class="links">
+        <a href="https://doi.org/10.1097/HEP.0000000000001731" target="_blank">DOI ↗</a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41989756/" target="_blank">PubMed ↗</a>
+      </div>
+    </div>
+
+    <div class="paper" id="paper-3" onclick="togglePaper(event, 3)">
+      <div class="paper-top">
+        <input type="checkbox" id="cb-3" onclick="event.stopPropagation(); updateCount();">
+        <div class="paper-num">4</div>
+        <div class="paper-title"><a href="https://doi.org/10.1158/0008-5472.CAN-25-0346" target="_blank" onclick="event.stopPropagation();">Intratumoral Lactobacillus johnsonii Enhances Sensitivity to PD-1 Blockade by Inducing CD8+ T-cell Expansion in Hepatocellular Carcinoma.</a></div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-if">IF 12.7</span>
+        <span class="badge badge-type">Basic Research</span>
+        
+        <span class="badge badge-country">China</span>
+      </div>
+      <div class="meta">📰 Cancer research &nbsp; 📅 2026-04-15 &nbsp; 👥 Liu Qianshi, Liu Yiqiang, Zhou Yue, Liang Liang, Wan Yejian et al.</div>
+      <div class="section-label">Abstract</div>
+      <div class="abstract-text">Although surgical resection is an effective intervention for early-stage hepatocellular carcinoma (HCC), postoperative recurrence remains a major clinical hurdle. Delving into the mechanisms underlying relapse and pinpointing potential therapeutic targets are imperative for improving outcomes for patients with HCC. By comparing the microbiota composition in patients with early- and non-relapsing HCC, we identified that Lactobacillus was enriched in patients with relapse-free HCC, serving as an independent prognostic predictor of disease-free survival. Higher levels of intratumoral Lactobacillus johnsonii correlated with an increased abundance of IFN&#x3b3;+PD-1+CD8+ T cells. Single-cell RNA sequencing, transcriptomic profiling of intratumoral CD45+ immune cells, and in vitro functional assays demonstrated that L. johnsonii preferentially enhanced this cytotoxic-exhausted T-cell population. Nicotinic acid (NA) served as a key metabolite derived from L. johnsonii that expanded IFN&#x3b3;+PD-1+CD8+ T cells and upregulated effector (granzyme B) and exhaustion (CTLA4) markers. Mechanistically, both L. johnsonii and NA activated the NF-&#x3ba;B pathway, leading to increased IFN&#x3b3; production and upregulation of the transcription factor NR4A2, which in turn sustained PD-1 expression on CD8+ T cells. Combining L. johnsonii or NA with anti-PD-1 therapy synergistically inhibited tumor relapse and tumor growth in immunocompetent or humanized mice. Crucially, the antitumor efficacy of L. johnsonii was CD8+ T cell-dependent, as depletion abolished its activity. This work unveils a mechanism by which L. johnsonii and its metabolite NA enrich intratumoral IFN&#x3b3;+PD-1+CD8+ T cells, thereby reshaping the immune microenvironment to potentiate immunotherapy efficacy and suppress HCC recurrence. Lactobacillus johnsonii produces nicotinic acid that expands intratumoral IFN&#x3b3;+PD-1+CD8+ T cells, which prevents hepatocellular carcinoma relapse and enhances the efficacy of anti-PD-1 therapy.</div>
+      <div class="section-label">中文摘要</div>
+      <div class="abstract-zh">儘管手術切除對早期肝細胞癌（HCC）是一種有效的介入治療，但術後復發仍然是主要的臨床挑戰。深入探討復發的機制並確定潛在的治療靶點對於改善HCC患者的預後至關重要。通過比較早期及無復發HCC患者的微生物組成，我們發現Lactobacillus在無復發HCC患者中富集，並且作為獨立的預後指標，預測疾病無復發生存期。腫瘤內Lactobacillus johnsonii的較高水平與IFNγ+PD-1+CD8+ T細胞的豐度增加相關。單細胞RNA測序、腫瘤內CD45+免疫細胞的轉錄組分析及體外功能測試顯示，L. johnsonii優先增強了這一細胞毒性疲憊T細胞群體。煙酸（NA）作為L. johnsonii衍生的關鍵代謝物，擴展了IFNγ+PD-1+CD8+ T細胞並上調了效應（granzyme B）和疲憊（CTLA4）標記。從機制上看，L. johnsonii和NA均激活了NF-κB通路，導致IFNγ產生增加及轉錄因子NR4A2的上調，進而維持CD8+ T細胞上的PD-1表達。將L. johnsonii或NA與抗PD-1療法聯合使用，能協同抑制腫瘤復發和腫瘤生長，無論是在免疫健全小鼠還是人源化小鼠中。關鍵是，L. johnsonii的抗腫瘤效能依賴於CD8+ T細胞，因為去除CD8+ T細胞會消除其活性。本研究揭示了L. johnsonii及其代謝物NA如何豐富腫瘤內的IFNγ+PD-1+CD8+ T細胞，從而重塑免疫微環境以增強免疫療法的效能並抑制HCC的復發。Lactobacillus johnsonii產生的煙酸擴展了腫瘤內的IFNγ+PD-1+CD8+ T細胞，這有助於防止肝細胞癌的復發並增強抗PD-1療法的療效。</div>
+      <div class="links">
+        <a href="https://doi.org/10.1158/0008-5472.CAN-25-0346" target="_blank">DOI ↗</a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41570324/" target="_blank">PubMed ↗</a>
+      </div>
+    </div>
+
+    <div class="paper" id="paper-4" onclick="togglePaper(event, 4)">
+      <div class="paper-top">
+        <input type="checkbox" id="cb-4" onclick="event.stopPropagation(); updateCount();">
+        <div class="paper-num">5</div>
+        <div class="paper-title"><a href="https://doi.org/10.1002/advs.202521418" target="_blank" onclick="event.stopPropagation();">Cancer-Associated Fibroblasts Promote Tumor Immunosuppression in Hepatocellular Carcinoma via the NNMT-ANGPTL4 Axis.</a></div>
+      </div>
+      <div class="badges">
+        
+        <span class="badge badge-type">Basic Research</span>
+        <span class="badge badge-asia">🌏 Asia</span>
+        <span class="badge badge-country">China</span><span class="badge badge-country">Japan</span>
+      </div>
+      <div class="meta">📰 Advanced science (Weinheim, Baden-Wurttemberg, Germany) &nbsp; 📅 2026-04-14 &nbsp; 👥 Lu Shounan, Ke Shanjia, Yu Hongjun, Meng Zhanzhi, Bai Miaoyu et al.</div>
+      <div class="section-label">Abstract</div>
+      <div class="abstract-text">Cancer-associated fibroblasts (CAFs) drive immunosuppression in hepatocellular carcinoma (HCC). However, their metabolic regulation remains poorly defined. We investigated the role of nicotinamide N-methyltransferase (NNMT) in CAFs. High NNMT expression in CAF tissues was confirmed by western blotting and immunofluorescence staining. Primary CAFs from HCC patients, single-cell RNA-seq (GSE149614), patient-derived organoids (PDOs), and fibroblast-specific NNMT-knockout mice were integrated by metabolomic analyses. NNMT in CAFs binds EZH2 and impedes its nuclear translocation, thereby reducing H3K27me3 enrichment at the promoter of angiopoietin-like 4 (ANGPTL4) to increase ANGPTL4 secretion. Secreted ANGPTL4 engages GLUT1 in HCC cells, activating aerobic glycolysis and increasing histone H3K18la levels. This epigenetic reprogramming transcriptionally upregulates PD-L1 expression, thereby facilitating tumor immune evasion. Additionally, CAF-derived ANGPTL4 promotes angiogenesis in HCC. Therapeutically, targeting the NNMT-ANGPTL4 axis restored CD8+ T-cell activity and synergized with anti-PD-L1 therapy in both patient-derived xenografts (PDXs) and fibroblast-specific NNMT-knockout murine models. We identified an NNMT-ANGPTL4-driven metabolic-epigenetic cascade in CAFs that induces PD-L1-mediated immune evasion, providing a therapeutic strategy to overcome resistance to immunotherapy in patients with HCC.</div>
+      <div class="section-label">中文摘要</div>
+      <div class="abstract-zh">癌症相關成纖維細胞（CAFs）在肝細胞癌（HCC）中驅動免疫抑制。然而，它們的代謝調控仍然不明確。我們研究了煙酰胺N-甲基轉移酶（NNMT）在CAFs中的作用。通過西方印跡和免疫螢光染色確認了CAFs組織中NNMT的高表達。來自HCC患者的原代CAFs、單細胞RNA測序（GSE149614）、患者衍生的類器官（PDOs）以及成纖維細胞特異性NNMT敲除小鼠通過代謝組學分析進行整合。CAFs中的NNMT與EZH2結合，阻礙其核轉位，從而減少血管生成素樣蛋白4（ANGPTL4）啟動子上的H3K27me3富集，增加ANGPTL4的分泌。分泌的ANGPTL4與HCC細胞中的GLUT1結合，激活有氧糖解作用並增加組蛋白H3K18la的水平。這種表觀遺傳重編程轉錄性地上調PD-L1的表達，從而促進腫瘤的免疫逃逸。此外，CAFs來源的ANGPTL4促進HCC中的血管生成。在治療方面，靶向NNMT-ANGPTL4軸恢復了CD8+ T細胞的活性，並在患者衍生的異種移植（PDXs）和成纖維細胞特異性NNMT敲除小鼠模型中與抗PD-L1療法協同作用。我們確定了一個由NNMT-ANGPTL4驅動的CAFs代謝-表觀遺傳級聯，該級聯誘導PD-L1介導的免疫逃逸，為克服HCC患者對免疫療法的抵抗提供了一種治療策略。</div>
+      <div class="links">
+        <a href="https://doi.org/10.1002/advs.202521418" target="_blank">DOI ↗</a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41980209/" target="_blank">PubMed ↗</a>
+      </div>
+    </div>
+
+    <div class="paper" id="paper-5" onclick="togglePaper(event, 5)">
+      <div class="paper-top">
+        <input type="checkbox" id="cb-5" onclick="event.stopPropagation(); updateCount();">
+        <div class="paper-num">6</div>
+        <div class="paper-title"><a href="https://doi.org/10.1073/pnas.2427192123" target="_blank" onclick="event.stopPropagation();">Selective depletion of virus-specific CD8 T cells from the liver after PD-1 therapy with Fc-intact antibody during chronic infection.</a></div>
+      </div>
+      <div class="badges">
+        
+        <span class="badge badge-type">Basic Research</span>
+        <span class="badge badge-asia">🌏 Asia</span>
+        <span class="badge badge-country">South Korea</span><span class="badge badge-country">India</span>
+      </div>
+      <div class="meta">📰 Proceedings of the National Academy of Sciences of the United States of America &nbsp; 📅 2026-04-08 &nbsp; 👥 Hashimoto Masao, Nasti Tahseen H, Jin Hyun-Tak, Bu Melissa, Araki Koichi et al.</div>
+      <div class="section-label">Abstract</div>
+      <div class="abstract-text">Anti-programmed cell death 1 (PD-1) antibody therapy is now widely used in various cancers. However, the role of the antibody Fc region in PD-1 directed immunotherapy is not well understood. Preclinical studies commonly use species-mismatched rat anti-mouse antibodies, which may not accurately reflect antibody-Fc gamma receptor (Fc&#x3b3;R) interactions. Here, we used mouse anti-mouse PD-1 antibodies to investigate how the Fc region influences therapeutic efficacy for enhancing CD8 T cell responses using mouse models of chronic lymphocytic choriomeningitis virus infection and CT26 tumors. Treatment with these mouse anti-mouse PD-1 antibodies caused preferential depletion of PD-1+ virus-specific CD8 T cells in the liver, resulting in increased viral titers. These effects of mouse anti-PD-1 antibodies were Fc dependent since mutating the Fc region to block Fc&#x3b3;R interaction prevented PD-1+ CD8 T cell depletion and resulted in effective immunotherapy. Using mice lacking activating Fc&#x3b3;R III or inhibitory Fc&#x3b3;R IIb, we found that depletion of PD-1+ CD8 T cells was mediated via activating Fc&#x3b3;R III. Furthermore, we determined that phagocytic cells, not natural killer cells, were the in vivo effectors that mediated depletion of PD-1+ CD8 T cells. Similar depletion of tumor-specific CD8 T cells and reduced tumor control were observed in the CT26 model with Fc-intact mouse anti-mouse PD-1 treatment. These findings highlight potential negative effects of Fc-functional anti-PD-1 antibodies in therapies for liver cancer, liver metastases, and chronic hepatotropic viral infections. Conversely, Fc&#x3b3;R-mediated depletion could benefit "agonistic" anti-PD-1 antibodies for treatment of autoimmunity. Our research emphasizes the importance of Fc region in tailoring PD-1 therapies for diverse clinical applications.</div>
+      <div class="section-label">中文摘要</div>
+      <div class="abstract-zh">抗程序性細胞死亡1（PD-1）抗體療法目前已廣泛應用於各種癌症。然而，抗體的Fc區域在PD-1導向的免疫療法中的作用尚不清楚。臨床前研究通常使用物種不匹配的鼠抗小鼠抗體，這可能無法準確反映抗體與Fc gamma受體（FcγR）之間的相互作用。在本研究中，我們使用小鼠抗小鼠PD-1抗體來探討Fc區域如何影響治療效果，以增強CD8 T細胞反應，並使用慢性淋巴細胞性脈絡膜腦膜炎病毒感染和CT26腫瘤的小鼠模型進行研究。這些小鼠抗小鼠PD-1抗體的治療導致肝臟中PD-1+病毒特異性CD8 T細胞的優先耗竭，從而導致病毒滴度增加。這些小鼠抗PD-1抗體的作用是依賴於Fc的，因為突變Fc區域以阻止FcγR的相互作用可以防止PD-1+ CD8 T細胞的耗竭，並導致有效的免疫療法。使用缺乏活化FcγR III或抑制性FcγR IIb的小鼠，我們發現PD-1+ CD8 T細胞的耗竭是通過活化FcγR III介導的。此外，我們確定了吞噬細胞，而非自然殺手細胞，是介導PD-1+ CD8 T細胞耗竭的體內效應細胞。在CT26模型中，使用Fc完整的小鼠抗小鼠PD-1治療也觀察到腫瘤特異性CD8 T細胞的類似耗竭和腫瘤控制的減少。這些發現突顯了Fc功能性抗PD-1抗體在肝癌、肝轉移和慢性肝向性病毒感染療法中的潛在負面影響。相反，FcγR介導的耗竭可能對“激動性”抗PD-1抗體在自體免疫治療中有益。我們的研究強調了Fc區域在為多種臨床應用量身定制PD-1療法中的重要性。</div>
+      <div class="links">
+        <a href="https://doi.org/10.1073/pnas.2427192123" target="_blank">DOI ↗</a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/41950082/" target="_blank">PubMed ↗</a>
+      </div>
+    </div>
+
+    <div class="paper" id="paper-6" onclick="togglePaper(event, 6)">
+      <div class="paper-top">
+        <input type="checkbox" id="cb-6" onclick="event.stopPropagation(); updateCount();">
+        <div class="paper-num">7</div>
+        <div class="paper-title"><a href="https://www.nature.com/articles/s41392-025-02498-z" target="_blank" onclick="event.stopPropagation();">… plus transarterial chemoembolization and PD-1 inhibitors as conversion therapies for unresectable intermediate-advanced hepatocellular carcinoma: a phase 2 trial …</a></div>
+      </div>
+      <div class="badges">
+        
+        <span class="badge badge-type">RCT Phase 2</span>
+        
+        
+      </div>
+      <div class="meta">📰 … and Targeted Therapy &nbsp; 📅 2026 &nbsp; 👥 X Zhang, H Cai, W Peng, H Wang, JY Wu…</div>
+      <div class="section-label">Abstract</div>
+      <div class="abstract-text">… an uncommon strategy for managing unresectable hepatocellular carcinoma (uHCC) due to … transarterial chemoembolization (TACE), and PD-1 inhibitors, against TACE alone in uHCC …</div>
+      <div class="section-label">中文摘要</div>
+      <div class="abstract-zh">… 一種不常見的策略，用於管理不可切除的肝細胞癌（uHCC），因為 … 將經動脈化學栓塞（TACE）和PD-1抑制劑與僅使用TACE的療法進行比較，以治療uHCC …</div>
+      <div class="links">
+        
+        
+      </div>
+    </div>
+
+    <div class="paper" id="paper-7" onclick="togglePaper(event, 7)">
+      <div class="paper-top">
+        <input type="checkbox" id="cb-7" onclick="event.stopPropagation(); updateCount();">
+        <div class="paper-num">8</div>
+        <div class="paper-title"><a href="https://doi.org/10.2169/internalmedicine.6021-25" target="_blank" onclick="event.stopPropagation();">The Efficacy and Safety of Atezolizumab Plus Bevacizumab after Durvalumab Plus Tremelimumab for the Treatment of Hepatocellular Carcinoma.</a></div>
+      </div>
+      <div class="badges">
+        
+        <span class="badge badge-type">Retrospective Study</span>
+        <span class="badge badge-asia">🌏 Asia</span>
+        <span class="badge badge-country">Japan</span>
+      </div>
+      <div class="meta">📰 Internal medicine (Tokyo, Japan) &nbsp; 📅 2026-04-16 &nbsp; 👥 Uchikawa Shinsuke, Kawaoka Tomokazu, Tanaka Aiko, Hashimoto Kou, Emori Tomoaki et al.</div>
+      <div class="section-label">Abstract</div>
+      <div class="abstract-text">Objective This study aimed to evaluate the efficacy and safety of atezolizumab plus bevacizumab (Atez+Bev) as a 2nd line therapy after the administration of durvalumab plus tremelimumab (Dur+Tre) in patients with hepatocellular carcinoma. We focused on the treatment outcomes and adverse event profiles specific to this sequential regimen. Methods A retrospective analysis was conducted on 16 patients who received 2nd line Atez+Bev after Dur+Tre therapy between April 2023 and August 2024 in our hospital and associated institutions. The objective response rate (ORR), disease control rate (DCR), treatment duration, and adverse events were assessed. Results The ORR and DCR for 2nd line Atez+Bev were 25.0% and 75.0%, respectively, thus suggesting favorable disease control. Even among patients who were non-responsive to Dur+Tre, two achieved a tumor response and eight achieved disease control. Regarding safety, pruritus was a common adverse event for both regimens. Colitis and diarrhea were more frequent in the Dur+Tre group, whereas proteinuria, hyperammonemia, and bleeding were more common in the Atez+Bev group. Conclusion This study suggests that Atez+Bev remains a viable option for patients unresponsive to Dur+Tre. Prior Dur+Tre therapy may enhance the immune response within the tumor microenvironment, thereby augmenting the efficacy of Atez+Bev. However, it is important to pay attention to the differences in adverse effect profiles between the two regimens.</div>
+      <div class="section-label">中文摘要</div>
+      <div class="abstract-zh">目的 本研究旨在評估在接受durvalumab加tremelimumab（Dur+Tre）治療後，對於肝細胞癌患者使用阿特珠單抗加貝伐單抗（Atez+Bev）作為第二線療法的療效和安全性。我們專注於此序列療法的治療結果和不良事件特徵。 方法 本研究對2023年4月至2024年8月期間在我們醫院及相關機構接受Dur+Tre治療後的16名患者進行了回顧性分析，這些患者隨後接受了第二線的Atez+Bev治療。我們評估了客觀反應率（ORR）、疾病控制率（DCR）、治療持續時間及不良事件。 結果 第二線Atez+Bev的ORR和DCR分別為25.0%和75.0%，顯示出良好的疾病控制。即使在對Dur+Tre無反應的患者中，仍有兩名患者達到腫瘤反應，八名患者達到疾病控制。在安全性方面，瘙癢是兩種療法中常見的不良事件。結腸炎和腹瀉在Dur+Tre組中更為頻繁，而蛋白尿、高氨血症和出血在Atez+Bev組中更為常見。 結論 本研究表明，Atez+Bev對於對Dur+Tre無反應的患者仍然是一個可行的選擇。先前的Dur+Tre療法可能增強腫瘤微環境中的免疫反應，從而提高Atez+Bev的療效。然而，注意兩種療法之間不良反應特徵的差異是非常重要的。</div>
+      <div class="links">
+        <a href="https://doi.org/10.2169/internalmedicine.6021-25" target="_blank">DOI ↗</a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/40903229/" target="_blank">PubMed ↗</a>
+      </div>
+    </div>
+
+    <div class="paper" id="paper-8" onclick="togglePaper(event, 8)">
+      <div class="paper-top">
+        <input type="checkbox" id="cb-8" onclick="event.stopPropagation(); updateCount();">
+        <div class="paper-num">9</div>
+        <div class="paper-title"><a href="https://link.springer.com/article/10.1186/s12885-025-15310-6" target="_blank" onclick="event.stopPropagation();">Prognostic nutritional index and the survival of patients with hepatocellular carcinoma on immune checkpoint inhibitors: a meta-analysis</a></div>
+      </div>
+      <div class="badges">
+        
+        <span class="badge badge-type">Meta-Analysis</span>
+        
+        
+      </div>
+      <div class="meta">📰 BMC cancer &nbsp; 📅 2026 &nbsp; 👥 J Fu, W Peng, J Jiang, T Deng, H Duan</div>
+      <div class="section-label">Abstract</div>
+      <div class="abstract-text">… and immune status, may be associated with survival in hepatocellular carcinoma (HCC) patients treated with immune checkpoint inhibitors (ICIs). However, findings across individual …</div>
+      <div class="section-label">中文摘要</div>
+      <div class="abstract-zh">…和免疫狀態可能與接受免疫檢查點抑制劑（ICIs）治療的肝細胞癌（HCC）患者的生存率相關。然而，各個研究之間的發現…</div>
+      <div class="links">
+        
+        
+      </div>
+    </div>
+
+    <div class="paper" id="paper-9" onclick="togglePaper(event, 9)">
+      <div class="paper-top">
+        <input type="checkbox" id="cb-9" onclick="event.stopPropagation(); updateCount();">
+        <div class="paper-num">10</div>
+        <div class="paper-title"><a href="https://ascopubs.org/doi/abs/10.1200/JCO.2026.44.2_suppl.547" target="_blank" onclick="event.stopPropagation();">Radiotherapy versus local ablation therapy for the treatment of hepatocellular carcinoma: A systematic review and meta-analysis.</a></div>
+      </div>
+      <div class="badges">
+        
+        <span class="badge badge-type">Meta-Analysis</span>
+        
+        
+      </div>
+      <div class="meta">📰 Journal of Clinical … &nbsp; 📅 2026 &nbsp; 👥 SH Bae, SH Choi, SM Yoon, JI Yu, HC Kang…</div>
+      <div class="section-label">Abstract</div>
+      <div class="abstract-text">… : Local ablation therapies, including radiofrequency ablation (RFA) and microwave ablation (… whether EBRT differs from local ablation therapy in terms of local progression-free survival (…</div>
+      <div class="section-label">中文摘要</div>
+      <div class="abstract-zh">當地消融療法，包括射頻消融（RFA）和微波消融（…），是否在局部無進展生存期方面與外部束放射治療（EBRT）存在差異（…）。</div>
+      <div class="links">
+        
+        
+      </div>
+    </div>
+
+  </div>
+  <div class="footer">
+    Generated automatically · Sources: PubMed, Google Scholar · Translations: AI-assisted<br>
+    © 2026 HCC Weekly Digest
+  </div>
+</div>
+<div class="generating-overlay" id="overlay">
+  <div class="generating-box">
+    <div class="spinner"></div>
+    正在產生簡報…<br>Generating presentation…
+  </div>
+</div>
+<script>
+const ARTICLES = [
+  {
+    "id": 0,
+    "title": "Hallmarks of liver cancer: Therapeutic implications.",
+    "journal": "Cell",
+    "impactFactor": 45.5,
+    "studyType": "Review",
+    "isAsiaPriority": false,
+    "countries": [
+      "USA",
+      "Spain"
+    ],
+    "pubDate": "2026-04-17",
+    "authors": "Llovet Josep M, Pinyol Roser, Affo Silvia, Yarchoan Mark, Gores Gregory J et al.",
+    "abstract": "The hallmarks of cancer, first proposed in 2000, have since provided a unified framework for understanding the complexity of carcinogenesis. This conceptual model has profoundly influenced the treatment landscape of primary liver cancer, which includes hepatocellular carcinoma (HCC, &#x223c;85%) and intrahepatic cholangiocarcinoma (iCCA, 10%)-malignancies with high mortality. Key hallmarks exhibited by HCC include sustaining proliferative signaling, inducing or accessing vasculature, and avoiding immune detection. Over the past two decades, outcomes for patients with advanced HCC have significantly improved with immunotherapies. iCCA is characterized by hallmarks such as sustaining proliferative signaling, deregulating cellular metabolism, and avoiding immune detection. Unlike HCC, roughly 45% of iCCA harbor alterations amenable to precision oncology approaches, including fibroblast growth factor receptor 2 (FGFR2) fusions, isocitrate dehydrogenase 1 (IDH1) mutations, ERBB2 alterations, and BRAF mutations. In this review, we explore how this framework has reshaped liver cancer care and discuss the resulting breakthroughs in management and emerging directions that may further improve therapeutic strategies.",
+    "abstractZh": "癌症的標誌性特徵最早於2000年提出，至今已為理解癌變的複雜性提供了一個統一的框架。這一概念模型深刻影響了原發性肝癌的治療格局，其中包括肝細胞癌（HCC，約85%）和肝內膽管癌（iCCA，10%）—這些惡性腫瘤具有高死亡率。HCC的主要標誌特徵包括持續的增殖信號、誘導或接觸血管以及避免免疫檢測。在過去的二十年中，接受免疫療法的晚期HCC患者的預後顯著改善。iCCA的特徵則包括持續的增殖信號、細胞代謝的失調以及避免免疫檢測。與HCC不同，約45%的iCCA存在可供精準腫瘤學方法處理的變異，包括成纖維細胞生長因子受體2（FGFR2）融合、異檸檬酸脫氫酶1（IDH1）突變、ERBB2變異和BRAF突變。在本次綜述中，我們探討了這一框架如何重塑肝癌的護理，並討論了由此帶來的管理突破及可能進一步改善治療策略的新方向。",
+    "doi": "10.1016/j.cell.2026.03.001",
+    "pmid": "41997132",
+    "link": "https://doi.org/10.1016/j.cell.2026.03.001",
+    "insight": "**Clinical Insight / 臨床啟示**  \nEN: This study highlights the importance of understanding the hallmarks of liver cancer, particularly hepatocellular carcinoma (HCC) and intrahepatic cholangiocarcinoma (iCCA), in guiding therapeutic strategies. The significant improvements in outcomes for advanced HCC patients through immunotherapies underscore the need for clinicians to integrate these insights into their treatment plans.  \nZH: 這項研究強調了理解肝癌的特徵，特別是肝細胞癌（HCC）和肝內膽管癌（iCCA），在指導治療策略方面的重要性。對於晚期HCC患者，免疫治療顯著改善了預後，這突顯了臨床醫生將這些見解納入治療計劃的必要性。\n\n**Future Direction / 未來方向**  \nEN: Future research should focus on identifying additional molecular targets and biomarkers in iCCA that could enhance precision oncology approaches. Moreover, exploring combination therapies that leverage immunotherapy alongside local ablative techniques may offer new avenues for improving patient outcomes in both HCC and iCCA.  \nZH: 未來的研究應集中於識別iCCA中更多的分子靶點和生物標誌物，以增強精準醫療方法。此外，探索將免疫療法與局部消融技術相結合的治療方案，可能為改善HCC和iCCA患者的預後提供新的途徑。",
+    "score": 55.5
+  },
+  {
+    "id": 1,
+    "title": "Neoadjuvant stereotactic body radiation therapy plus immune therapy favorably remodels the hepatocellular carcinoma tumor microenvironment.",
+    "journal": "Clinical cancer research : an official journal of the American Association for Cancer Research",
+    "impactFactor": 11.5,
+    "studyType": "Prospective Study",
+    "isAsiaPriority": false,
+    "countries": [
+      "USA"
+    ],
+    "pubDate": "2026-04-15",
+    "authors": "Cosner Zoe, Guo Zhoubo, Nawrocki Cole, Patel Bidish, Roberts Hannah J et al.",
+    "abstract": "Although immune therapy regimens have significantly improved treatment options for patients with advanced hepatocellular carcinoma (HCC), optimal use of these regimens in earlier disease stages remains poorly defined. We conducted a single-institution, single-arm pilot study (NCT04857684) of neoadjuvant stereotactic body radiation therapy (SBRT) followed by two cycles of atezolizumab plus bevacizumab and subsequent surgical resection in patients with initially resectable HCC (n=8). The primary endpoint was safety as defined by the proportion of patients with grade 3-4 treatment-related adverse events (trAE) by Common Terminology Criteria for Adverse Events (CTCAE) v5.0. And we dissected the detailed remodeling of the tumor immune microenvironment following treatment using single-cell-resolution spatial transcriptomics method. Only one patient experienced a grade 3 trAE. Seven of eight patients proceeded to surgery, and all achieved margin-negative (R0) resection; one patient did not proceed due to subsequent disagreement of resectability. One patient achieved a pathologic complete response, and all resected patients were relapse-free at data cutoff (median follow-up 16.3 months, range 2.1-19.9). Compared with unmatched treatment-na&#xef;ve HCC specimens, post-treatment specimens showed significantly higher anti-cancer immune infiltration, including organized peritumoral aggregates. Immune infiltration and its proximity to tumor cells correlated with pre-operative radiographic response. This study provides proof-of-concept that neoadjuvant SBRT and immune therapy is safe and provides clear rationale for additional prospective clinical studies utilizing this strategy.",
+    "abstractZh": "儘管免疫療法方案顯著改善了晚期肝細胞癌（HCC）患者的治療選擇，但在早期疾病階段這些方案的最佳使用仍然不明確。我們進行了一項單一機構、單臂的初步研究（NCT04857684），研究對象為最初可切除的HCC患者（n=8），接受新輔助立體定向體部放射治療（SBRT），隨後進行兩個療程的atezolizumab加bevacizumab治療，並最終進行外科切除。主要終點為安全性，根據不良事件的共同術語標準（CTCAE）v5.0定義為3-4級治療相關不良事件（trAE）的患者比例。我們還利用單細胞解析的空間轉錄組學方法，詳細分析了治療後腫瘤免疫微環境的重塑。只有一名患者經歷了3級trAE。八名患者中有七名進行了手術，且所有患者均達到邊緣陰性（R0）切除；一名患者因隨後對可切除性產生異議而未進行手術。一名患者達到了病理完全緩解，所有切除患者在數據截止時均無復發（中位隨訪16.3個月，範圍2.1-19.9個月）。與未匹配的治療前HCC標本相比，治療後的標本顯示出顯著更高的抗癌免疫浸潤，包括有組織的腫瘤周圍聚集。免疫浸潤及其與腫瘤細胞的接近程度與術前影像學反應相關。本研究提供了證明概念，顯示新輔助SBRT和免疫療法是安全的，並為進一步利用此策略的前瞻性臨床研究提供了明確的理論依據。",
+    "doi": "10.1158/1078-0432.CCR-25-4779",
+    "pmid": "41984885",
+    "link": "https://doi.org/10.1158/1078-0432.CCR-25-4779",
+    "insight": "**Clinical Insight / 臨床啟示**  \nEN: This study highlights the potential of combining neoadjuvant stereotactic body radiation therapy with immune therapy to safely remodel the tumor microenvironment in patients with resectable hepatocellular carcinoma, suggesting a promising treatment strategy for earlier disease stages. The low incidence of severe treatment-related adverse events and the high rate of margin-negative resections indicate that this approach could enhance surgical outcomes and improve patient prognosis.  \nZH: 這項研究突顯了將新輔助立體定向放射治療與免疫療法結合的潛力，能安全地重塑可切除肝細胞癌患者的腫瘤微環境，暗示這是一種對早期疾病階段有前景的治療策略。低發生率的嚴重治療相關不良事件和高比例的切緣陰性切除表明，這種方法可能改善手術結果並提高患者預後。\n\n**Future Direction / 未來方向**  \nEN: Future research should focus on larger, multi-institutional trials to validate the efficacy and safety of this neoadjuvant treatment approach, as well as to explore its mechanisms of action in remodeling the tumor immune microenvironment. Additionally, investigating biomarkers that predict response to this combined therapy could further optimize patient selection and treatment outcomes.  \nZH: 未來的研究應集中於更大規模的多中心試驗，以驗證這種新輔助治療方法的療效和安全性，並探索其在重塑腫瘤免疫微環境中的作用機制。此外，研究可預測對這種聯合療法反應的生物標誌物，可能進一步優化患者選擇和治療結果。",
+    "score": 29.5
+  },
+  {
+    "id": 2,
+    "title": "Erratum: Hepatectomy alters adjuvant anti-PD-1 action in a mouse model of HCC but does not compromise neoadjuvant efficacy.",
+    "journal": "Hepatology (Baltimore, Md.)",
+    "impactFactor": 12.9,
+    "studyType": "Basic Research",
+    "isAsiaPriority": false,
+    "countries": [],
+    "pubDate": "2026-04-16",
+    "authors": "Bouguerra Roqiya, El Hajji Sofia, Wassmer Charles-Henri, Bakaric Arnaud, Slits Florence et al.",
+    "abstract": "(No abstract available)",
+    "abstractZh": "（無摘要）",
+    "doi": "10.1097/HEP.0000000000001731",
+    "pmid": "41989756",
+    "link": "https://doi.org/10.1097/HEP.0000000000001731",
+    "insight": "**Clinical Insight / 臨床啟示**  \nEN: This study highlights the importance of understanding the timing of immunotherapy in relation to surgical interventions, such as hepatectomy, which may enhance or diminish the effectiveness of anti-PD-1 treatments in HCC patients. Clinicians should consider the sequencing of therapies to optimize patient outcomes.  \nZH: 這項研究強調了理解免疫療法與手術介入（如肝切除術）之間時機的重要性，這可能會增強或減少抗PD-1治療在肝癌患者中的有效性。臨床醫生應考慮治療的排序，以優化患者的療效。\n\n**Future Direction / 未來方向**  \nEN: Future research should focus on elucidating the underlying mechanisms by which hepatectomy influences the immune response to anti-PD-1 therapy, as well as exploring combination strategies that can maximize therapeutic efficacy. Additionally, clinical trials are needed to validate these findings in human populations.  \nZH: 未來的研究應著重於闡明肝切除術如何影響對抗PD-1療法的免疫反應的潛在機制，以及探索能最大化治療效果的聯合策略。此外，需要臨床試驗來驗證這些發現在人群中的適用性。",
+    "score": 27.9
+  },
+  {
+    "id": 3,
+    "title": "Intratumoral Lactobacillus johnsonii Enhances Sensitivity to PD-1 Blockade by Inducing CD8+ T-cell Expansion in Hepatocellular Carcinoma.",
+    "journal": "Cancer research",
+    "impactFactor": 12.7,
+    "studyType": "Basic Research",
+    "isAsiaPriority": false,
+    "countries": [
+      "China"
+    ],
+    "pubDate": "2026-04-15",
+    "authors": "Liu Qianshi, Liu Yiqiang, Zhou Yue, Liang Liang, Wan Yejian et al.",
+    "abstract": "Although surgical resection is an effective intervention for early-stage hepatocellular carcinoma (HCC), postoperative recurrence remains a major clinical hurdle. Delving into the mechanisms underlying relapse and pinpointing potential therapeutic targets are imperative for improving outcomes for patients with HCC. By comparing the microbiota composition in patients with early- and non-relapsing HCC, we identified that Lactobacillus was enriched in patients with relapse-free HCC, serving as an independent prognostic predictor of disease-free survival. Higher levels of intratumoral Lactobacillus johnsonii correlated with an increased abundance of IFN&#x3b3;+PD-1+CD8+ T cells. Single-cell RNA sequencing, transcriptomic profiling of intratumoral CD45+ immune cells, and in vitro functional assays demonstrated that L. johnsonii preferentially enhanced this cytotoxic-exhausted T-cell population. Nicotinic acid (NA) served as a key metabolite derived from L. johnsonii that expanded IFN&#x3b3;+PD-1+CD8+ T cells and upregulated effector (granzyme B) and exhaustion (CTLA4) markers. Mechanistically, both L. johnsonii and NA activated the NF-&#x3ba;B pathway, leading to increased IFN&#x3b3; production and upregulation of the transcription factor NR4A2, which in turn sustained PD-1 expression on CD8+ T cells. Combining L. johnsonii or NA with anti-PD-1 therapy synergistically inhibited tumor relapse and tumor growth in immunocompetent or humanized mice. Crucially, the antitumor efficacy of L. johnsonii was CD8+ T cell-dependent, as depletion abolished its activity. This work unveils a mechanism by which L. johnsonii and its metabolite NA enrich intratumoral IFN&#x3b3;+PD-1+CD8+ T cells, thereby reshaping the immune microenvironment to potentiate immunotherapy efficacy and suppress HCC recurrence. Lactobacillus johnsonii produces nicotinic acid that expands intratumoral IFN&#x3b3;+PD-1+CD8+ T cells, which prevents hepatocellular carcinoma relapse and enhances the efficacy of anti-PD-1 therapy.",
+    "abstractZh": "儘管手術切除對早期肝細胞癌（HCC）是一種有效的介入治療，但術後復發仍然是主要的臨床挑戰。深入探討復發的機制並確定潛在的治療靶點對於改善HCC患者的預後至關重要。通過比較早期及無復發HCC患者的微生物組成，我們發現Lactobacillus在無復發HCC患者中富集，並且作為獨立的預後指標，預測疾病無復發生存期。腫瘤內Lactobacillus johnsonii的較高水平與IFNγ+PD-1+CD8+ T細胞的豐度增加相關。單細胞RNA測序、腫瘤內CD45+免疫細胞的轉錄組分析及體外功能測試顯示，L. johnsonii優先增強了這一細胞毒性疲憊T細胞群體。煙酸（NA）作為L. johnsonii衍生的關鍵代謝物，擴展了IFNγ+PD-1+CD8+ T細胞並上調了效應（granzyme B）和疲憊（CTLA4）標記。從機制上看，L. johnsonii和NA均激活了NF-κB通路，導致IFNγ產生增加及轉錄因子NR4A2的上調，進而維持CD8+ T細胞上的PD-1表達。將L. johnsonii或NA與抗PD-1療法聯合使用，能協同抑制腫瘤復發和腫瘤生長，無論是在免疫健全小鼠還是人源化小鼠中。關鍵是，L. johnsonii的抗腫瘤效能依賴於CD8+ T細胞，因為去除CD8+ T細胞會消除其活性。本研究揭示了L. johnsonii及其代謝物NA如何豐富腫瘤內的IFNγ+PD-1+CD8+ T細胞，從而重塑免疫微環境以增強免疫療法的效能並抑制HCC的復發。Lactobacillus johnsonii產生的煙酸擴展了腫瘤內的IFNγ+PD-1+CD8+ T細胞，這有助於防止肝細胞癌的復發並增強抗PD-1療法的療效。",
+    "doi": "10.1158/0008-5472.CAN-25-0346",
+    "pmid": "41570324",
+    "link": "https://doi.org/10.1158/0008-5472.CAN-25-0346",
+    "insight": "**Clinical Insight / 臨床啟示**  \nEN: This study highlights the potential of intratumoral Lactobacillus johnsonii as a novel therapeutic strategy to enhance the efficacy of PD-1 blockade in hepatocellular carcinoma (HCC) patients. By promoting the expansion of CD8+ T cells, Lactobacillus johnsonii may help to reduce postoperative recurrence, offering a promising avenue for improving disease-free survival rates.  \nZH: 這項研究突顯了腫瘤內乳酸菌（Lactobacillus johnsonii）作為一種新型治療策略的潛力，能增強肝細胞癌（HCC）患者對PD-1阻斷劑的療效。通過促進CD8+ T細胞的擴增，乳酸菌可能有助於降低術後復發率，為改善無病生存率提供了有希望的途徑。  \n\n**Future Direction / 未來方向**  \nEN: Future research should explore the clinical application of Lactobacillus johnsonii and its metabolite nicotinic acid in combination with existing immunotherapies for HCC. Additionally, investigating the broader implications of microbiota composition on immune responses in cancer could lead to personalized therapeutic strategies.  \nZH: 未來的研究應探討乳酸菌（Lactobacillus johnsonii）及其代謝物煙酸在與現有HCC免疫療法聯合應用中的臨床潛力。此外，研究微生物組成對癌症免疫反應的更廣泛影響，可能會導致個性化的治療策略。",
+    "score": 27.7
+  },
+  {
+    "id": 4,
+    "title": "Cancer-Associated Fibroblasts Promote Tumor Immunosuppression in Hepatocellular Carcinoma via the NNMT-ANGPTL4 Axis.",
+    "journal": "Advanced science (Weinheim, Baden-Wurttemberg, Germany)",
+    "impactFactor": 0,
+    "studyType": "Basic Research",
+    "isAsiaPriority": true,
+    "countries": [
+      "China",
+      "Japan"
+    ],
+    "pubDate": "2026-04-14",
+    "authors": "Lu Shounan, Ke Shanjia, Yu Hongjun, Meng Zhanzhi, Bai Miaoyu et al.",
+    "abstract": "Cancer-associated fibroblasts (CAFs) drive immunosuppression in hepatocellular carcinoma (HCC). However, their metabolic regulation remains poorly defined. We investigated the role of nicotinamide N-methyltransferase (NNMT) in CAFs. High NNMT expression in CAF tissues was confirmed by western blotting and immunofluorescence staining. Primary CAFs from HCC patients, single-cell RNA-seq (GSE149614), patient-derived organoids (PDOs), and fibroblast-specific NNMT-knockout mice were integrated by metabolomic analyses. NNMT in CAFs binds EZH2 and impedes its nuclear translocation, thereby reducing H3K27me3 enrichment at the promoter of angiopoietin-like 4 (ANGPTL4) to increase ANGPTL4 secretion. Secreted ANGPTL4 engages GLUT1 in HCC cells, activating aerobic glycolysis and increasing histone H3K18la levels. This epigenetic reprogramming transcriptionally upregulates PD-L1 expression, thereby facilitating tumor immune evasion. Additionally, CAF-derived ANGPTL4 promotes angiogenesis in HCC. Therapeutically, targeting the NNMT-ANGPTL4 axis restored CD8+ T-cell activity and synergized with anti-PD-L1 therapy in both patient-derived xenografts (PDXs) and fibroblast-specific NNMT-knockout murine models. We identified an NNMT-ANGPTL4-driven metabolic-epigenetic cascade in CAFs that induces PD-L1-mediated immune evasion, providing a therapeutic strategy to overcome resistance to immunotherapy in patients with HCC.",
+    "abstractZh": "癌症相關成纖維細胞（CAFs）在肝細胞癌（HCC）中驅動免疫抑制。然而，它們的代謝調控仍然不明確。我們研究了煙酰胺N-甲基轉移酶（NNMT）在CAFs中的作用。通過西方印跡和免疫螢光染色確認了CAFs組織中NNMT的高表達。來自HCC患者的原代CAFs、單細胞RNA測序（GSE149614）、患者衍生的類器官（PDOs）以及成纖維細胞特異性NNMT敲除小鼠通過代謝組學分析進行整合。CAFs中的NNMT與EZH2結合，阻礙其核轉位，從而減少血管生成素樣蛋白4（ANGPTL4）啟動子上的H3K27me3富集，增加ANGPTL4的分泌。分泌的ANGPTL4與HCC細胞中的GLUT1結合，激活有氧糖解作用並增加組蛋白H3K18la的水平。這種表觀遺傳重編程轉錄性地上調PD-L1的表達，從而促進腫瘤的免疫逃逸。此外，CAFs來源的ANGPTL4促進HCC中的血管生成。在治療方面，靶向NNMT-ANGPTL4軸恢復了CD8+ T細胞的活性，並在患者衍生的異種移植（PDXs）和成纖維細胞特異性NNMT敲除小鼠模型中與抗PD-L1療法協同作用。我們確定了一個由NNMT-ANGPTL4驅動的CAFs代謝-表觀遺傳級聯，該級聯誘導PD-L1介導的免疫逃逸，為克服HCC患者對免疫療法的抵抗提供了一種治療策略。",
+    "doi": "10.1002/advs.202521418",
+    "pmid": "41980209",
+    "link": "https://doi.org/10.1002/advs.202521418",
+    "insight": "**Clinical Insight / 臨床啟示**  \nEN: This study highlights the critical role of cancer-associated fibroblasts (CAFs) in promoting immunosuppression in hepatocellular carcinoma (HCC) through the NNMT-ANGPTL4 axis, suggesting that targeting this pathway may enhance the efficacy of immunotherapies. The findings indicate a potential biomarker for predicting patient response to treatment, paving the way for personalized therapeutic strategies in HCC management.  \nZH: 本研究強調癌症相關成纖維細胞（CAFs）在肝細胞癌（HCC）中通過NNMT-ANGPTL4軸促進免疫抑制的關鍵作用，表明針對此途徑可能增強免疫療法的療效。這些發現還指示出一個潛在的生物標記，用於預測患者對治療的反應，為HCC管理提供個性化治療策略的可能性。\n\n**Future Direction / 未來方向**  \nEN: Future research should focus on further elucidating the metabolic and epigenetic mechanisms by which CAFs influence tumor immunity, potentially identifying additional therapeutic targets within this pathway. Additionally, clinical trials assessing the combination of NNMT-ANGPTL4 inhibitors with existing immunotherapies could provide valuable insights into improving treatment outcomes for HCC patients.  \nZH: 未來的研究應集中於進一步闡明CAFs如何影響腫瘤免疫的代謝和表觀遺傳機制，可能識別此途徑中的其他治療靶點。此外，評估NNMT-ANGPTL4抑制劑與現有免疫療法聯合使用的臨床試驗，可能為改善HCC患者的治療效果提供寶貴的見解。",
+    "score": 25
+  },
+  {
+    "id": 5,
+    "title": "Selective depletion of virus-specific CD8 T cells from the liver after PD-1 therapy with Fc-intact antibody during chronic infection.",
+    "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+    "impactFactor": 0,
+    "studyType": "Basic Research",
+    "isAsiaPriority": true,
+    "countries": [
+      "South Korea",
+      "India"
+    ],
+    "pubDate": "2026-04-08",
+    "authors": "Hashimoto Masao, Nasti Tahseen H, Jin Hyun-Tak, Bu Melissa, Araki Koichi et al.",
+    "abstract": "Anti-programmed cell death 1 (PD-1) antibody therapy is now widely used in various cancers. However, the role of the antibody Fc region in PD-1 directed immunotherapy is not well understood. Preclinical studies commonly use species-mismatched rat anti-mouse antibodies, which may not accurately reflect antibody-Fc gamma receptor (Fc&#x3b3;R) interactions. Here, we used mouse anti-mouse PD-1 antibodies to investigate how the Fc region influences therapeutic efficacy for enhancing CD8 T cell responses using mouse models of chronic lymphocytic choriomeningitis virus infection and CT26 tumors. Treatment with these mouse anti-mouse PD-1 antibodies caused preferential depletion of PD-1+ virus-specific CD8 T cells in the liver, resulting in increased viral titers. These effects of mouse anti-PD-1 antibodies were Fc dependent since mutating the Fc region to block Fc&#x3b3;R interaction prevented PD-1+ CD8 T cell depletion and resulted in effective immunotherapy. Using mice lacking activating Fc&#x3b3;R III or inhibitory Fc&#x3b3;R IIb, we found that depletion of PD-1+ CD8 T cells was mediated via activating Fc&#x3b3;R III. Furthermore, we determined that phagocytic cells, not natural killer cells, were the in vivo effectors that mediated depletion of PD-1+ CD8 T cells. Similar depletion of tumor-specific CD8 T cells and reduced tumor control were observed in the CT26 model with Fc-intact mouse anti-mouse PD-1 treatment. These findings highlight potential negative effects of Fc-functional anti-PD-1 antibodies in therapies for liver cancer, liver metastases, and chronic hepatotropic viral infections. Conversely, Fc&#x3b3;R-mediated depletion could benefit \"agonistic\" anti-PD-1 antibodies for treatment of autoimmunity. Our research emphasizes the importance of Fc region in tailoring PD-1 therapies for diverse clinical applications.",
+    "abstractZh": "抗程序性細胞死亡1（PD-1）抗體療法目前已廣泛應用於各種癌症。然而，抗體的Fc區域在PD-1導向的免疫療法中的作用尚不清楚。臨床前研究通常使用物種不匹配的鼠抗小鼠抗體，這可能無法準確反映抗體與Fc gamma受體（FcγR）之間的相互作用。在本研究中，我們使用小鼠抗小鼠PD-1抗體來探討Fc區域如何影響治療效果，以增強CD8 T細胞反應，並使用慢性淋巴細胞性脈絡膜腦膜炎病毒感染和CT26腫瘤的小鼠模型進行研究。這些小鼠抗小鼠PD-1抗體的治療導致肝臟中PD-1+病毒特異性CD8 T細胞的優先耗竭，從而導致病毒滴度增加。這些小鼠抗PD-1抗體的作用是依賴於Fc的，因為突變Fc區域以阻止FcγR的相互作用可以防止PD-1+ CD8 T細胞的耗竭，並導致有效的免疫療法。使用缺乏活化FcγR III或抑制性FcγR IIb的小鼠，我們發現PD-1+ CD8 T細胞的耗竭是通過活化FcγR III介導的。此外，我們確定了吞噬細胞，而非自然殺手細胞，是介導PD-1+ CD8 T細胞耗竭的體內效應細胞。在CT26模型中，使用Fc完整的小鼠抗小鼠PD-1治療也觀察到腫瘤特異性CD8 T細胞的類似耗竭和腫瘤控制的減少。這些發現突顯了Fc功能性抗PD-1抗體在肝癌、肝轉移和慢性肝向性病毒感染療法中的潛在負面影響。相反，FcγR介導的耗竭可能對“激動性”抗PD-1抗體在自體免疫治療中有益。我們的研究強調了Fc區域在為多種臨床應用量身定制PD-1療法中的重要性。",
+    "doi": "10.1073/pnas.2427192123",
+    "pmid": "41950082",
+    "link": "https://doi.org/10.1073/pnas.2427192123",
+    "insight": "**Clinical Insight / 臨床啟示**  \nEN: This study reveals that the Fc region of anti-PD-1 antibodies can significantly influence the therapeutic efficacy by selectively depleting virus-specific CD8 T cells in the liver, which may lead to increased viral loads and reduced effectiveness in treating liver cancer and chronic infections. Understanding these mechanisms is crucial for optimizing PD-1 therapies in clinical settings.  \nZH: 這項研究顯示，抗PD-1抗體的Fc區域可以顯著影響治療效果，通過選擇性地耗竭肝臟中的病毒特異性CD8 T細胞，可能導致病毒載量增加和肝癌及慢性感染治療效果降低。了解這些機制對於優化臨床上PD-1療法至關重要。\n\n**Future Direction / 未來方向**  \nEN: Future research should focus on developing Fc-engineered anti-PD-1 antibodies that minimize the depletion of beneficial T cell populations while enhancing anti-tumor immunity. Additionally, exploring the role of Fc receptors in other immunotherapeutic contexts could lead to novel strategies for treating various cancers and autoimmune diseases.  \nZH: 未來的研究應集中於開發Fc工程化的抗PD-1抗體，最小化有益T細胞群體的耗竭，同時增強抗腫瘤免疫。此外，探索Fc受體在其他免疫療法中的作用可能會導致治療各種癌症和自體免疫疾病的新策略。",
+    "score": 25
+  },
+  {
+    "id": 6,
+    "title": "… plus transarterial chemoembolization and PD-1 inhibitors as conversion therapies for unresectable intermediate-advanced hepatocellular carcinoma: a phase 2 trial …",
+    "journal": "… and Targeted Therapy",
+    "impactFactor": 0,
+    "studyType": "RCT Phase 2",
+    "isAsiaPriority": false,
+    "countries": [],
+    "pubDate": "2026",
+    "authors": "X Zhang, H Cai, W Peng, H Wang, JY Wu…",
+    "abstract": "… an uncommon strategy for managing unresectable hepatocellular carcinoma (uHCC) due to … transarterial chemoembolization (TACE), and PD-1 inhibitors, against TACE alone in uHCC …",
+    "abstractZh": "… 一種不常見的策略，用於管理不可切除的肝細胞癌（uHCC），因為 … 將經動脈化學栓塞（TACE）和PD-1抑制劑與僅使用TACE的療法進行比較，以治療uHCC …",
+    "doi": "",
+    "pmid": "",
+    "link": "https://www.nature.com/articles/s41392-025-02498-z",
+    "insight": "**Clinical Insight / 臨床啟示**  \nEN: This study highlights the potential of combining transarterial chemoembolization (TACE) with PD-1 inhibitors as a promising conversion therapy for patients with unresectable intermediate-advanced hepatocellular carcinoma (HCC). Such an approach may enhance treatment efficacy and improve patient outcomes compared to TACE alone.  \nZH: 這項研究突顯了將經動脈化療栓塞（TACE）與PD-1抑制劑結合作為不可切除中晚期肝細胞癌（HCC）患者的潛在轉化療法。這種方法可能提高治療效果並改善患者預後，相較於僅使用TACE的療法。\n\n**Future Direction / 未來方向**  \nEN: Future research should focus on larger, multicenter trials to validate the findings and explore the optimal sequencing and combination strategies of TACE and PD-1 inhibitors. Additionally, investigating biomarkers that predict response to this combination therapy could further personalize treatment for HCC patients.  \nZH: 未來的研究應集中於更大規模的多中心試驗，以驗證這些發現並探索TACE與PD-1抑制劑的最佳序列和組合策略。此外，研究預測對這種組合療法反應的生物標誌物，可能進一步個性化肝細胞癌患者的治療。",
+    "score": 25
+  },
+  {
+    "id": 7,
+    "title": "The Efficacy and Safety of Atezolizumab Plus Bevacizumab after Durvalumab Plus Tremelimumab for the Treatment of Hepatocellular Carcinoma.",
+    "journal": "Internal medicine (Tokyo, Japan)",
+    "impactFactor": 0,
+    "studyType": "Retrospective Study",
+    "isAsiaPriority": true,
+    "countries": [
+      "Japan"
+    ],
+    "pubDate": "2026-04-16",
+    "authors": "Uchikawa Shinsuke, Kawaoka Tomokazu, Tanaka Aiko, Hashimoto Kou, Emori Tomoaki et al.",
+    "abstract": "Objective This study aimed to evaluate the efficacy and safety of atezolizumab plus bevacizumab (Atez+Bev) as a 2nd line therapy after the administration of durvalumab plus tremelimumab (Dur+Tre) in patients with hepatocellular carcinoma. We focused on the treatment outcomes and adverse event profiles specific to this sequential regimen. Methods A retrospective analysis was conducted on 16 patients who received 2nd line Atez+Bev after Dur+Tre therapy between April 2023 and August 2024 in our hospital and associated institutions. The objective response rate (ORR), disease control rate (DCR), treatment duration, and adverse events were assessed. Results The ORR and DCR for 2nd line Atez+Bev were 25.0% and 75.0%, respectively, thus suggesting favorable disease control. Even among patients who were non-responsive to Dur+Tre, two achieved a tumor response and eight achieved disease control. Regarding safety, pruritus was a common adverse event for both regimens. Colitis and diarrhea were more frequent in the Dur+Tre group, whereas proteinuria, hyperammonemia, and bleeding were more common in the Atez+Bev group. Conclusion This study suggests that Atez+Bev remains a viable option for patients unresponsive to Dur+Tre. Prior Dur+Tre therapy may enhance the immune response within the tumor microenvironment, thereby augmenting the efficacy of Atez+Bev. However, it is important to pay attention to the differences in adverse effect profiles between the two regimens.",
+    "abstractZh": "目的 本研究旨在評估在接受durvalumab加tremelimumab（Dur+Tre）治療後，對於肝細胞癌患者使用阿特珠單抗加貝伐單抗（Atez+Bev）作為第二線療法的療效和安全性。我們專注於此序列療法的治療結果和不良事件特徵。 方法 本研究對2023年4月至2024年8月期間在我們醫院及相關機構接受Dur+Tre治療後的16名患者進行了回顧性分析，這些患者隨後接受了第二線的Atez+Bev治療。我們評估了客觀反應率（ORR）、疾病控制率（DCR）、治療持續時間及不良事件。 結果 第二線Atez+Bev的ORR和DCR分別為25.0%和75.0%，顯示出良好的疾病控制。即使在對Dur+Tre無反應的患者中，仍有兩名患者達到腫瘤反應，八名患者達到疾病控制。在安全性方面，瘙癢是兩種療法中常見的不良事件。結腸炎和腹瀉在Dur+Tre組中更為頻繁，而蛋白尿、高氨血症和出血在Atez+Bev組中更為常見。 結論 本研究表明，Atez+Bev對於對Dur+Tre無反應的患者仍然是一個可行的選擇。先前的Dur+Tre療法可能增強腫瘤微環境中的免疫反應，從而提高Atez+Bev的療效。然而，注意兩種療法之間不良反應特徵的差異是非常重要的。",
+    "doi": "10.2169/internalmedicine.6021-25",
+    "pmid": "40903229",
+    "link": "https://doi.org/10.2169/internalmedicine.6021-25",
+    "insight": "**Clinical Insight / 臨床啟示**  \nEN: This study highlights the potential of atezolizumab plus bevacizumab as a second-line therapy for hepatocellular carcinoma patients who do not respond to durvalumab plus tremelimumab, indicating a possible improvement in disease control rates. The findings also emphasize the need for careful monitoring of adverse events, as the safety profiles differ significantly between the two treatment regimens.  \nZH: 本研究突顯了阿特珠單抗加貝伐單抗作為肝細胞癌患者在對杜瓦利單抗加特雷莫單抗無反應後的二線療法的潛力，顯示出可能改善疾病控制率。研究結果還強調了需要仔細監測不良事件，因為這兩種治療方案的安全性特徵差異顯著。\n\n**Future Direction / 未來方向**  \nEN: Future research should focus on larger, multicenter trials to validate the efficacy and safety of the Atez+Bev regimen in diverse patient populations. Additionally, exploring the underlying mechanisms of enhanced immune response following Dur+Tre therapy could provide insights into optimizing sequential treatment strategies for hepatocellular carcinoma.  \nZH: 未來的研究應集中於更大規模的多中心試驗，以驗證Atez+Bev方案在不同患者群體中的療效和安全性。此外，探索杜瓦利單抗加特雷莫單抗治療後增強免疫反應的潛在機制，可能為優化肝細胞癌的序列治療策略提供見解。",
+    "score": 20
+  },
+  {
+    "id": 8,
+    "title": "Prognostic nutritional index and the survival of patients with hepatocellular carcinoma on immune checkpoint inhibitors: a meta-analysis",
+    "journal": "BMC cancer",
+    "impactFactor": 0,
+    "studyType": "Meta-Analysis",
+    "isAsiaPriority": false,
+    "countries": [],
+    "pubDate": "2026",
+    "authors": "J Fu, W Peng, J Jiang, T Deng, H Duan",
+    "abstract": "… and immune status, may be associated with survival in hepatocellular carcinoma (HCC) patients treated with immune checkpoint inhibitors (ICIs). However, findings across individual …",
+    "abstractZh": "…和免疫狀態可能與接受免疫檢查點抑制劑（ICIs）治療的肝細胞癌（HCC）患者的生存率相關。然而，各個研究之間的發現…",
+    "doi": "",
+    "pmid": "",
+    "link": "https://link.springer.com/article/10.1186/s12885-025-15310-6",
+    "insight": "**Clinical Insight / 臨床啟示**  \nEN: This study highlights the prognostic nutritional index as a potential biomarker for predicting survival in hepatocellular carcinoma patients undergoing treatment with immune checkpoint inhibitors. Integrating nutritional assessments into clinical practice may enhance patient management and treatment outcomes.  \nZH: 這項研究強調了預後營養指數作為預測接受免疫檢查點抑制劑治療的肝細胞癌患者生存期的潛在生物標誌物。將營養評估納入臨床實踐可能會改善患者管理和治療結果。\n\n**Future Direction / 未來方向**  \nEN: Future research should focus on validating the prognostic nutritional index in larger, diverse cohorts of HCC patients and exploring its role in combination with other biomarkers to optimize treatment strategies. Additionally, investigating the mechanisms linking nutritional status and immune response could provide insights for improving immunotherapy efficacy.  \nZH: 未來的研究應集中於在更大且多樣化的肝細胞癌患者群體中驗證預後營養指數，並探索其與其他生物標誌物結合的作用，以優化治療策略。此外，研究營養狀態與免疫反應之間的機制可能會為提高免疫療法的療效提供見解。",
+    "score": 15
+  },
+  {
+    "id": 9,
+    "title": "Radiotherapy versus local ablation therapy for the treatment of hepatocellular carcinoma: A systematic review and meta-analysis.",
+    "journal": "Journal of Clinical …",
+    "impactFactor": 0,
+    "studyType": "Meta-Analysis",
+    "isAsiaPriority": false,
+    "countries": [],
+    "pubDate": "2026",
+    "authors": "SH Bae, SH Choi, SM Yoon, JI Yu, HC Kang…",
+    "abstract": "… : Local ablation therapies, including radiofrequency ablation (RFA) and microwave ablation (… whether EBRT differs from local ablation therapy in terms of local progression-free survival (…",
+    "abstractZh": "當地消融療法，包括射頻消融（RFA）和微波消融（…），是否在局部無進展生存期方面與外部束放射治療（EBRT）存在差異（…）。",
+    "doi": "",
+    "pmid": "",
+    "link": "https://ascopubs.org/doi/abs/10.1200/JCO.2026.44.2_suppl.547",
+    "insight": "**Clinical Insight / 臨床啟示**  \nEN: This study highlights the comparative effectiveness of radiotherapy versus local ablation therapies for hepatocellular carcinoma, suggesting that local ablation may offer superior local progression-free survival. Clinicians should consider these findings when selecting treatment options for patients with HCC.  \nZH: 這項研究突顯了放射治療與局部消融療法在肝細胞癌中的比較效果，表明局部消融可能提供更好的局部無進展生存期。臨床醫生在為HCC患者選擇治療方案時應考慮這些發現。\n\n**Future Direction / 未來方向**  \nEN: Future research could focus on optimizing treatment protocols that combine radiotherapy and local ablation to enhance patient outcomes. Additionally, investigating biomarkers that predict response to these therapies may further refine treatment strategies for HCC.  \nZH: 未來的研究可以集中於優化結合放射治療和局部消融的治療方案，以提高患者的療效。此外，研究預測對這些療法反應的生物標記物，可能進一步完善HCC的治療策略。",
+    "score": 15
+  }
+];
+const OVERALL_INSIGHTS = "### 綜合啟示 (Overall Insights)\n\n1. **整合癌症特徵於肝癌治療**  \n   The integration of cancer hallmarks into the treatment framework for hepatocellular carcinoma (HCC) provides a comprehensive understanding of tumor biology, guiding therapeutic strategies.  \n   將癌症特徵整合到肝細胞癌（HCC）的治療框架中，提供了對腫瘤生物學的全面理解，指導治療策略。\n\n2. **免疫治療在早期階段的潛力**  \n   Neoadjuvant therapies combining immune modulation with local treatments show promise in reshaping the tumor microenvironment, suggesting a shift in treatment paradigms for early-stage HCC.  \n   結合免疫調節與局部治療的術前療法顯示出重塑腫瘤微環境的潛力，暗示著早期HCC治療模式的轉變。\n\n3. **癌症相關成纖維細胞的角色**  \n   The role of cancer-associated fibroblasts (CAFs) in promoting immunosuppression highlights the need for targeting tumor stroma to enhance the efficacy of immunotherapies in HCC.  \n   癌症相關成纖維細胞（CAFs）在促進免疫抑制中的角色凸顯了針對腫瘤基質以提高HCC免疫療法療效的必要性。\n\n4. **術後復發的挑戰**  \n   Understanding the mechanisms behind postoperative recurrence is crucial for developing effective interventions, as surgical resection remains a common treatment for early-stage HCC.  \n   理解術後復發的機制對於開發有效的干預措施至關重要，因為外科切除仍然是早期HCC的常見治療。\n\n5. **營養指數與免疫療法的關聯**  \n   The prognostic nutritional index may serve as a valuable biomarker for predicting survival outcomes in HCC patients undergoing immune checkpoint inhibitor therapy, emphasizing the interplay between nutrition and immune status.  \n   預後營養指數可能作為預測接受免疫檢查點抑制劑療法的HCC患者生存結果的有價值生物標記，強調營養與免疫狀態之間的相互作用。\n\n### 未來研究方向 (Future Research Directions)\n\n1. **探索免疫治療的最佳時機**  \n   Future studies should investigate the optimal timing and combinations of immune therapies in earlier stages of HCC to maximize treatment benefits.  \n   未來的研究應探討在HCC早期階段免疫療法的最佳時機和組合，以最大化治療效果。\n\n2. **針對CAFs的治療策略**  \n   Investigating targeted therapies against cancer-associated fibroblasts (CAFs) may provide new avenues for enhancing immunotherapy efficacy in HCC.  \n   研究針對癌症相關成纖維細胞（CAFs）的治療策略可能為提高HCC免疫療法的療效提供新的途徑。\n\n3. **術後復發的生物標記**  \n   Identifying biomarkers associated with postoperative recurrence can aid in developing preventive strategies and personalized treatment plans for HCC patients.  \n   確定與術後復發相關的生物標記可以幫助開發預防策略和個性化治療計劃，針對HCC患者。\n\n4. **營養與免疫治療的交互作用**  \n   Further research on the interaction between nutritional status and immune response in HCC patients treated with immune checkpoint inhibitors could lead to improved therapeutic outcomes.  \n   進一步研究HCC患者在接受免疫檢查點抑制劑治療時，營養狀態與免疫反應之間的相互作用，可能會導致改善治療結果。\n\n5. **局部消融與放射治療的比較**  \n   Continued exploration of the comparative effectiveness of local ablation therapies versus radiotherapy in HCC treatment will help define optimal management strategies.  \n   持續探索局部消融療法與放射治療在HCC治療中的比較效果將有助於確定最佳管理策略。";
+const WEEK_RANGE = "2026-04-11 — 2026-04-18";
+
+function togglePaper(e, id) {
+  if (e.target.tagName === 'A' || e.target.tagName === 'INPUT') return;
+  const cb = document.getElementById('cb-' + id);
+  cb.checked = !cb.checked;
+  updateCount();
+}
+function updateCount() {
+  const checked = getSelected();
+  document.getElementById('countLabel').textContent = '已選 ' + checked.length + ' 篇';
+  document.getElementById('genBtn').disabled = checked.length === 0;
+  ARTICLES.forEach(a => {
+    document.getElementById('paper-' + a.id).classList.toggle('selected', document.getElementById('cb-' + a.id).checked);
+  });
+}
+function toggleAll() {
+  const checked = getSelected();
+  const shouldCheck = checked.length < ARTICLES.length;
+  ARTICLES.forEach(a => { document.getElementById('cb-' + a.id).checked = shouldCheck; });
+  updateCount();
+}
+function getSelected() {
+  return ARTICLES.filter(a => document.getElementById('cb-' + a.id).checked);
+}
+
+async function generatePPT() {
+  const selected = getSelected();
+  if (selected.length === 0) return;
+  document.getElementById('overlay').classList.add('active');
+  try {
+    const pptx = new PptxGenJS();
+    pptx.layout = 'LAYOUT_WIDE';
+    pptx.author = 'HCC Weekly Digest';
+    pptx.subject = 'Weekly Literature Review';
+    const C = {
+      red: 'DC2626', darkRed: '7F1D1D', white: 'FFFFFF',
+      slate50: 'F8FAFC', slate200: 'E2E8F0', slate500: '64748B',
+      slate700: '334155', accent: 'EF4444',
+    };
+
+    // Cover
+    const cover = pptx.addSlide();
+    cover.background = { color: C.darkRed };
+    cover.addText('🔬', { x: 0, y: 1.5, w: '100%', fontSize: 60, align: 'center' });
+    cover.addText('HCC Weekly Digest', { x: 1, y: 2.5, w: 11.33, fontSize: 36, color: C.white, align: 'center', bold: true });
+    cover.addText('肝癌免疫治療與局部消融文獻週報', { x: 1, y: 4.2, w: 11.33, fontSize: 20, color: C.accent, align: 'center', fontFace: 'Microsoft JhengHei' });
+    cover.addText(WEEK_RANGE, { x: 1, y: 5.2, w: 11.33, fontSize: 16, color: C.slate500, align: 'center' });
+    cover.addText('Selected ' + selected.length + ' papers', { x: 1, y: 5.8, w: 11.33, fontSize: 14, color: C.slate500, align: 'center' });
+
+    // TOC
+    const toc = pptx.addSlide();
+    toc.addText('📋 Contents / 目錄', { x: 0.8, y: 0.4, w: 11, fontSize: 24, color: C.darkRed, bold: true });
+    selected.forEach((a, i) => {
+      toc.addText((i+1) + '. ' + a.title.substring(0,80) + (a.title.length > 80 ? '…' : ''), { x: 1, y: 1.3 + i*0.5, w: 11, fontSize: 12, color: C.slate700, hyperlink: { slide: 3 + i*2 } });
+    });
+
+    // Paper slides
+    selected.forEach((a, i) => {
+      const sA = pptx.addSlide();
+      sA.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.4, h: 7.5, fill: { color: C.red } });
+      sA.addText('Paper ' + (i+1), { x: 0.6, y: 0.3, w: 2, fontSize: 12, color: C.red, bold: true });
+      sA.addText(a.title, { x: 0.6, y: 0.7, w: 12, fontSize: 18, color: C.darkRed, bold: true });
+      let meta = a.journal;
+      if (a.impactFactor) meta += ' · IF ' + (typeof a.impactFactor === 'number' ? a.impactFactor.toFixed(1) : a.impactFactor);
+      if (a.studyType !== 'Other') meta += ' · ' + a.studyType;
+      sA.addText(meta, { x: 0.6, y: 1.6, w: 12, fontSize: 11, color: C.slate500 });
+      sA.addText(a.pubDate + ' · ' + a.authors, { x: 0.6, y: 1.95, w: 12, fontSize: 10, color: C.slate500 });
+      sA.addText('Abstract', { x: 0.6, y: 2.5, w: 5.5, fontSize: 12, color: C.red, bold: true });
+      sA.addText(a.abstract.substring(0,800), { x: 0.6, y: 2.9, w: 5.8, fontSize: 9, color: C.slate700, lineSpacingMultiple: 1.3 });
+      sA.addText('中文摘要', { x: 6.8, y: 2.5, w: 5.5, fontSize: 12, color: C.red, bold: true });
+      sA.addText(a.abstractZh.substring(0,800), { x: 6.8, y: 2.9, w: 5.8, fontSize: 9, color: C.slate700, fontFace: 'Microsoft JhengHei', lineSpacingMultiple: 1.3 });
+
+      const sB = pptx.addSlide();
+      sB.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.4, h: 7.5, fill: { color: C.red } });
+      sB.addText('Paper ' + (i+1) + ' — Insights', { x: 0.6, y: 0.3, w: 6, fontSize: 12, color: C.red, bold: true });
+      sB.addText(a.title.substring(0,90), { x: 0.6, y: 0.7, w: 12, fontSize: 14, color: C.darkRed, bold: true });
+      sB.addText(a.insight || '(No insight)', { x: 0.6, y: 1.4, w: 12, fontSize: 10, color: C.slate700, lineSpacingMultiple: 1.4 });
+    });
+
+    // Overall insights
+    const oSlide = pptx.addSlide();
+    oSlide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 13.33, h: 1.2, fill: { color: C.darkRed } });
+    oSlide.addText('💡 Overall Insights & Future Directions\n綜合啟示與未來研究方向', { x: 0.6, y: 0.15, w: 12, fontSize: 20, color: C.white, bold: true });
+    oSlide.addText(OVERALL_INSIGHTS || '(No overall insights)', { x: 0.6, y: 1.5, w: 12, fontSize: 10, color: C.slate700, lineSpacingMultiple: 1.4 });
+
+    // Back cover
+    const back = pptx.addSlide();
+    back.background = { color: C.darkRed };
+    back.addText('Thank You\n謝謝', { x: 1, y: 2, w: 11.33, fontSize: 40, color: C.white, align: 'center', bold: true });
+    back.addText('HCC Weekly Digest\n肝癌免疫治療與局部消融文獻週報', { x: 1, y: 4, w: 11.33, fontSize: 18, color: C.accent, align: 'center' });
+
+    await pptx.writeFile({ fileName: 'HCC-Digest-' + WEEK_RANGE.replace(/ — /g, '-to-') + '.pptx' });
+  } catch (err) {
+    alert('Error: ' + err.message);
+  } finally {
+    document.getElementById('overlay').classList.remove('active');
+  }
+}
+</script>
+</body>
+</html>
