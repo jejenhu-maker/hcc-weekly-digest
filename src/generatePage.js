@@ -184,7 +184,7 @@ function buildPageHtml(data, overallInsights, weekStart, weekEnd, year) {
   <div class="toolbar">
     <button class="select-all" onclick="toggleAll()">全選 / 取消</button>
     <span class="count" id="countLabel">已選 0 篇</span>
-    <button id="genBtn" disabled onclick="generatePPT()">📊 產生簡報 (.pptx)</button>
+    <a href="./latest-digest.pptx" download style="display:inline-block;background:var(--primary);color:white;border:none;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;">📊 下載簡報 (.pptx)</a>
   </div>
   <div id="papers">
 ${data.map((p, i) => `

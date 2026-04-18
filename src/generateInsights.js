@@ -1,4 +1,4 @@
-// generateInsights.js — LLM insights for HCC papers
+// generateInsights.js — LLM: bullet points + clinical insight + future direction per article (HCC)
 const OpenAI = require('openai');
 const config = require('./config');
 
@@ -9,7 +9,7 @@ function getClient() {
 }
 
 async function generateInsights(articles) {
-  console.log(`[Insights] Generating insights for ${articles.length} articles…`);
+  console.log(`[Insights] Generating structured insights for ${articles.length} articles…`);
 
   for (let i = 0; i < articles.length; i += 3) {
     const batch = articles.slice(i, i + 3);
@@ -26,22 +26,18 @@ async function generateInsights(articles) {
       messages: [
         {
           role: 'system',
-          content: `你是肝癌（HCC）免疫治療與局部消融的資深研究學者。請根據以下本週發表的論文，用中英對照的方式撰寫：
-1. 綜合啟示（Overall Insights）：這些論文整體帶給臨床與研究的啟發（3-5 點）
-2. 未來研究方向（Future Research Directions）：基於這些論文，值得探索的研究方向（3-5 點）
+          content: `你是肝癌（HCC）免疫治療與局部消融的資深研究學者。根據本週論文，用中英對照撰寫：
+1. 綜合啟示（Overall Insights）：3-5 點
+2. 未來研究方向（Future Research Directions）：3-5 點
 
-格式要求：
-- 每一點都要有英文和繁體中文
-- 精簡但有深度
-- 適合放在學術簡報中`
+每點都要有英文和繁體中文，精簡有深度，適合學術簡報。`
         },
         { role: 'user', content: overallPrompt },
       ],
       temperature: 0.4,
       max_tokens: 3000,
     });
-    const overall = res.choices[0]?.message?.content?.trim() || '';
-    return { articles, overallInsights: overall };
+    return { articles, overallInsights: res.choices[0]?.message?.content?.trim() || '' };
   } catch (e) {
     console.warn('[Insights] Overall synthesis error:', e.message);
     return { articles, overallInsights: '(Generation failed)' };
@@ -55,30 +51,46 @@ async function generateArticleInsight(article) {
       messages: [
         {
           role: 'system',
-          content: `你是肝癌（HCC）免疫治療與局部消融的資深研究學者。針對以下論文，請用中英對照撰寫：
-1. 臨床啟示（Clinical Insight）：這篇研究對臨床實務的意義（2-3 句）
-2. 未來方向（Future Direction）：基於此研究可延伸的方向（2-3 句）
+          content: `你是肝癌（HCC）免疫治療與局部消融的資深研究學者。請針對以下論文生成結構化摘要。
 
-格式：
-**Clinical Insight / 臨床啟示**
-EN: ...
-ZH: ...
+請嚴格按照以下 JSON 格式回覆，不要加任何其他文字：
+{
+  "bulletPointsEn": ["point 1", "point 2", "point 3"],
+  "bulletPointsZh": ["重點一", "重點二", "重點三"],
+  "insightClinical": "EN: ... \\nZH: ...",
+  "insightFuture": "EN: ... \\nZH: ..."
+}
 
-**Future Direction / 未來方向**
-EN: ...
-ZH: ...`
+規則：
+- bulletPointsEn/Zh：3-5 個重點發現，每點一句話，精準扼要
+- insightClinical：臨床啟示（中英對照，2-3 句）
+- insightFuture：未來研究方向（中英對照，2-3 句）`
         },
         {
           role: 'user',
           content: `Title: ${article.title}\nJournal: ${article.journal}\nAbstract: ${article.abstract}`,
         },
       ],
-      temperature: 0.4,
-      max_tokens: 800,
+      temperature: 0.3,
+      max_tokens: 1200,
+      response_format: { type: 'json_object' },
     });
-    article.insight = res.choices[0]?.message?.content?.trim() || '';
+
+    const raw = res.choices[0]?.message?.content?.trim() || '{}';
+    const parsed = JSON.parse(raw);
+
+    article.bulletPointsEn = parsed.bulletPointsEn || [];
+    article.bulletPointsZh = parsed.bulletPointsZh || [];
+    article.insightClinical = parsed.insightClinical || '';
+    article.insightFuture = parsed.insightFuture || '';
+    article.insight = `${article.insightClinical}\n\n${article.insightFuture}`;
+
   } catch (e) {
     console.warn(`[Insights] Error for "${article.title.substring(0, 40)}…":`, e.message);
+    article.bulletPointsEn = ['(Generation failed)'];
+    article.bulletPointsZh = ['（生成失敗）'];
+    article.insightClinical = '';
+    article.insightFuture = '';
     article.insight = '';
   }
 }
