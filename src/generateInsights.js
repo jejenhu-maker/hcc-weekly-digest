@@ -61,10 +61,11 @@ async function generateArticleInsight(article) {
   "insightFuture": "EN: ... \\nZH: ..."
 }
 
-規則：
-- bulletPointsEn/Zh：3-5 個重點發現，每點一句話，精準扼要
-- insightClinical：臨床啟示（中英對照，2-3 句）
-- insightFuture：未來研究方向（中英對照，2-3 句）`
+規則（777 原則 — 每頁最多 7 點，每點最多 7 個字/詞）：
+- bulletPointsEn：3-5 個重點，每點 5-20 個英文單字（簡潔但完整）
+- bulletPointsZh：3-5 個重點，每點 5-20 個中文字（專有名詞保留英文）
+- insightClinical：臨床啟示，一句英文（≤10 words）+ 一句中文（≤15字）
+- insightFuture：未來方向，一句英文（≤10 words）+ 一句中文（≤15字）`
         },
         {
           role: 'user',
