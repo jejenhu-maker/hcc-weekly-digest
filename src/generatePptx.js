@@ -91,13 +91,24 @@ function buildPptx(articles, overallInsights, weekRange, lang) {
 
   });
 
-  // ── OVERALL ──
-  const oSlide = pptx.addSlide();
-  oSlide.background = { color: C.accentDark };
-  oSlide.addText(isZh ? '綜合啟示' : 'SYNTHESIS', { x: 0.8, y: 0.4, w: 6, fontSize: 9, color: C.midGray, charSpacing: 6, margin: 0 });
-  oSlide.addText('Overall Insights\n& Future Directions', { x: 0.8, y: 0.9, w: 11, fontSize: 30, color: C.white, bold: true, fontFace: F.main });
-  if (isZh) oSlide.addText('綜合啟示與未來研究方向', { x: 0.8, y: 2.5, w: 11, fontSize: 14, color: C.midGray, fontFace: F.cjk, margin: 0 });
-  oSlide.addText(overallInsights || '(No insights)', { x: 0.8, y: isZh ? 3.2 : 2.8, w: 11.5, fontSize: 12, color: C.white, lineSpacingMultiple: 1.6 });
+  // ── OVERALL (split into 2 slides) ──
+  const insightText = overallInsights || '(No insights)';
+  const midPoint = Math.floor(insightText.length / 2);
+  const splitIdx = insightText.indexOf('\n', midPoint) !== -1 ? insightText.indexOf('\n', midPoint) : midPoint;
+  const page1Text = insightText.substring(0, splitIdx).trim();
+  const page2Text = insightText.substring(splitIdx).trim();
+
+  const o1 = pptx.addSlide();
+  o1.background = { color: C.accentDark };
+  o1.addText(isZh ? '綜合啟示' : 'SYNTHESIS', { x: 0.8, y: 0.4, w: 6, fontSize: 9, color: C.midGray, charSpacing: 6, margin: 0 });
+  o1.addText(isZh ? '綜合啟示與未來研究方向 (1/2)' : 'Overall Insights (1/2)', { x: 0.8, y: 0.9, w: 11, fontSize: 24, color: C.white, bold: true, fontFace: isZh ? F.cjk : F.main, margin: 0 });
+  o1.addText(page1Text, { x: 0.8, y: 1.6, w: 11.5, fontSize: 12, color: C.white, lineSpacingMultiple: 1.5 });
+
+  const o2 = pptx.addSlide();
+  o2.background = { color: C.accentDark };
+  o2.addText(isZh ? '綜合啟示' : 'SYNTHESIS', { x: 0.8, y: 0.4, w: 6, fontSize: 9, color: C.midGray, charSpacing: 6, margin: 0 });
+  o2.addText(isZh ? '綜合啟示與未來研究方向 (2/2)' : 'Future Directions (2/2)', { x: 0.8, y: 0.9, w: 11, fontSize: 24, color: C.white, bold: true, fontFace: isZh ? F.cjk : F.main, margin: 0 });
+  o2.addText(page2Text, { x: 0.8, y: 1.6, w: 11.5, fontSize: 12, color: C.white, lineSpacingMultiple: 1.5 });
 
   // ── BACK COVER ──
   const back = pptx.addSlide();
